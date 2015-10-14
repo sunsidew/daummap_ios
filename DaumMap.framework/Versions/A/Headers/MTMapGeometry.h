@@ -88,6 +88,13 @@ typedef struct {
 + (id)mapPointWithWTM:(MTMapPointPlain)mapPointWTM;
 
 /**
+ * MapView의 좌상단 기준 Pixel 좌표값으로 MTMapPoint 객체를 생성한다.
+ * @param mapPointScreenLocation Pixel 좌표시스템의 좌표값
+ * @return MTMapPoint 객체
+ */
++ (id)mapPointWithScreenLocation:(MTMapPointPlain)mapPointScreenLocation;
+
+/**
  * MTMapPoint 객체가 나타내는 지점의 좌표값을 위경도 좌표시스템(WGS84)의 좌표값으로 조회한다.
  * @return 위경도 좌표시스템(WGS84)의 좌표값
  */
@@ -134,6 +141,55 @@ typedef struct {
  * @param mapPointWTM WTM 평면좌표계의 좌표값
  */
 - (void)setMapPointWTM:(MTMapPointPlain)mapPointWTM;
+
+/**
+ * MTMapPoint 객체가 나타내는 지점의 좌표값을 WTM 평면좌표계의 좌표값으로 조회한다.
+ * @return MapView 좌상단 기준 Pixel 좌표값
+ */
+- (MTMapPointPlain)mapPointScreenLocation;
+
+@end
+
+/**
+ * 지도 화면의 영역을 표현하는 데이터 구조
+ * 영역의 좌하단 지점과 우상단 지점을 각각 MTMapPoint 타입의 인자로 갖는다.
+ * @deprecated 제거될 예정. MTMapBoundsRect 클래스를 사용하세요.
+ */
+typedef struct {
+    __unsafe_unretained MTMapPoint* bottoomLeft; /**< 영역의 좌하단 좌표 */
+    __unsafe_unretained MTMapPoint* topRight; /**< 영역의 우상단 좌표 */
+} MTMapBounds;
+
+/**
+ * 영역의 좌하단 좌표값과 우상단 좌표값으로 MTMapBounds 데이터 구조를 생성하는 매크로
+ * @deprecated 제거될 예정. MTMapBoundsRect 클래스를 사용하세요.
+ * @param bottoomLeft 영역의 좌하단 좌표
+ * @param topRight 영역의 우상단 좌표
+ * @return MTMapBounds 데이터 구조
+ */
+#define MTMapBoundsMake(bottoomLeft,topRight) (MTMapBounds){(MTMapPoint *)bottoomLeft, (MTMapPoint *)topRight}
+
+/**
+ * @brief 지도 화면의 영역을 표현하는 BoundsRect Class.
+ * 영역의 좌하단 지점과 우상단 지점을 각각 MTMapPoint 타입의 인자로 갖는다.
+ */
+@interface MTMapBoundsRect : NSObject
+
+/**
+ * MTMapBoundsRect 객체를 생성한다. autorelease 상태로 MTMapBoundsRect 객체를 생성하여 리턴한다.
+ */
+
++ (id)boundsRect;
+
+/**
+ * 영역의 좌하단 좌표
+ */
+@property (nonatomic, retain) MTMapPoint *bottomLeft;
+
+/**
+ * 영역의 우상단 좌표
+ */
+@property (nonatomic, retain) MTMapPoint *topRight;
 
 @end
 
